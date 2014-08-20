@@ -7,5 +7,30 @@
 </body>
 
 <template name="schedule">
-
+    <session class="schedule">
+        <session class="calendar">
+            <div class="date"></div>
+            <div class="timeslots">
+                {{#each timeslots}}
+                    {{timeslot}}
+                {{/each}}
+            </div>
+        </session>
+        <session class="map"></session>
+    </session>
+    <session class="shortlists">
+        {{#each shortlists}}
+            <div class="shortlist" shortlistId="{{_id}}">
+                <div class="img" style="{background-image: url('../{{img}}')}"></div>
+                <div class="info">
+                    <h3>{{address}}</h3>
+                    <ul class="sub-info list-inline">
+                        <li><h5>{{price}}</h5>per month</li>
+                        <li><h5>{{beds}}</h5>beds</li>
+                        <li><h5>{{baths}}</h5>baths</li>
+                    </ul>
+                </div>
+            </div>
+        {{/each}}
+    </session>
 </template>
