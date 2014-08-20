@@ -8,14 +8,7 @@
 
 <template name="schedule">
     <session class="schedule">
-        <session class="calendar">
-            <div class="date"></div>
-            <div class="timeslots">
-                {{#each timeslots}}
-                    {{timeslot}}
-                {{/each}}
-            </div>
-        </session>
+        {{> scheduleCalendar}}
         <session class="map"></session>
     </session>
     <session class="shortlists">
@@ -33,4 +26,8 @@
             </div>
         {{/each}}
     </session>
+</template>
+
+<template name="scheduleCalendar">
+    <session class="calendar" id="calendar"></session>
 </template>

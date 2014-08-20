@@ -2,6 +2,10 @@
   "packages": {
     "sass": {},
     "collection2": {},
-    "bootstrap-3": {}
+    "bootstrap-3": {},
+    "hammer": {},
+    "supercalendar": {},
+    "fullcalendar-2": {},
+    "jqueryui": {}
   }
 }

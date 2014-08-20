@@ -48,7 +48,23 @@ if (Meteor.isClient) {
     shortlists: function () {
       return Shortlists.find();
     }
-  })
+  });
+
+  Template.scheduleCalendar.rendered = function() {
+    $('#calendar').fullCalendar({
+      header: {
+        left: 'prev',
+        center: 'title',
+        right: 'next'
+      },
+      contentHeight: 544,
+      defaultView: 'agendaDay',
+      allDaySlot: false,
+      minTime: '08:00:00',
+      maxTime: '23:00:00',
+      slotEventOverlap: false
+    });
+  }
 }
 
 if (Meteor.isServer) {

@@ -4,7 +4,11 @@
     "basePackages": {
       "sass": {},
       "collection2": {},
-      "bootstrap-3": {}
+      "bootstrap-3": {},
+      "hammer": {},
+      "supercalendar": {},
+      "fullcalendar-2": {},
+      "jqueryui": {}
     },
     "packages": {
       "sass": {
@@ -22,10 +26,50 @@
         "tag": "v3.2.0-1",
         "commit": "17a63902fc6cf1096c5289d963c66cf28b474727"
       },
+      "hammer": {
+        "git": "https://github.com/noorderstorm/meteor-hammer.git",
+        "tag": "v0.1.3",
+        "commit": "1d37707c251c04c7d9b6023ba959b23c1f257c44"
+      },
+      "supercalendar": {
+        "git": "https://github.com/gabrielhpugliese/meteor_supercalendar",
+        "tag": "v0.2.0",
+        "commit": "70229679d36b96be28abab4bf4105a7480d4ebbf"
+      },
+      "fullcalendar-2": {
+        "git": "https://github.com/scmart/meteor-fullcalendar-2.git",
+        "tag": "v2.0.2",
+        "commit": "18a5a7fd70d5e9c5e0600885c1f95480e363d345"
+      },
+      "jqueryui": {
+        "git": "https://github.com/mizzao/meteor-jqueryui.git",
+        "tag": "v1.11.0",
+        "commit": "06194edc0bdbb28c34b3a656bf9cb6a32718b44e"
+      },
       "simple-schema": {
         "git": "https://github.com/aldeed/meteor-simple-schema.git",
         "tag": "v0.7.0",
         "commit": "77d267aec4ba8a70f677e5d9ef9fb91fb0e3f0f6"
+      },
+      "Mesosphere": {
+        "git": "https://github.com/copleykj/Mesosphere.git",
+        "tag": "v0.1.9",
+        "commit": "dc63582fa5d3a4dc3952a80bead9625ef4ab259b"
+      },
+      "moment": {
+        "git": "https://github.com/acreeger/meteor-moment.git",
+        "tag": "v2.8.1",
+        "commit": "722ea63783d594341023836b7d418ab2567dab8c"
+      },
+      "build-fetcher": {
+        "git": "https://github.com/mizzao/meteor-build-fetcher.git",
+        "tag": "v0.2.0",
+        "commit": "5202ca83277860d798c6ff2ef1d8fe1bce007d0f"
+      },
+      "underscore-string-latest": {
+        "git": "https://github.com/TimHeckel/meteor-underscore-string.git",
+        "tag": "v2.3.3",
+        "commit": "4a5d70eee48fbd90a6e6fc78747250d704a0b3bb"
       }
     }
   }
