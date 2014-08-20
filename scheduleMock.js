@@ -44,27 +44,50 @@ Timeslots = new Meteor.Collection('timeslots');
 Shortlists.attachSchema(Schemas.Shortlists);
 
 if (Meteor.isClient) {
-  Template.schedule.helpers({
+  Template.shortlists.helpers({
     shortlists: function () {
       return Shortlists.find();
     }
   });
 
-  Template.scheduleCalendar.rendered = function() {
-    $('#calendar').fullCalendar({
-      header: {
-        left: 'prev',
-        center: 'title',
-        right: 'next'
-      },
-      contentHeight: 544,
-      defaultView: 'agendaDay',
-      allDaySlot: false,
-      minTime: '08:00:00',
-      maxTime: '23:00:00',
-      slotEventOverlap: false
-    });
+  Template.shortlists.rendered = function () {
+    console.log($('.shortlist'));
   }
+
+  Template.scheduleCalendar.rendered = function() {
+    // var calHeight = $('#calendar').height() - 50;
+    // $('#calendar').fullCalendar({
+    //   header: {
+    //     left: 'prev',
+    //     center: 'title',
+    //     right: 'next'
+    //   },
+    //   contentHeight: calHeight,
+    //   defaultView: 'agendaDay',
+    //   allDaySlot: false,
+    //   minTime: '08:00:00',
+    //   maxTime: '23:00:00',
+    //   slotEventOverlap: false
+    // });
+  }
+
+  // Template.calendar.rendered = function () {
+    // var calHeight = $('.calendar').height() - 50;
+
+    // $('#calendar').fullCalendar({
+    //   header: {
+    //     left: 'prev',
+    //     center: 'title',
+    //     right: 'next'
+    //   },
+    //   contentHeight: calHeight,
+    //   defaultView: 'agendaDay',
+    //   allDaySlot: false,
+    //   minTime: '08:00:00',
+    //   maxTime: '23:00:00',
+    //   slotEventOverlap: false
+    // });
+  // }
 }
 
 if (Meteor.isServer) {
@@ -99,6 +122,29 @@ if (Meteor.isServer) {
           img: "shortlist-3.jpg"
         });
       };
+    }
+
+    if (Calendar.find().count() == 0) {
+      Calendar.insert({
+        title: '#63 Beach Road',
+        allDay: false,
+        start: 'Wed Aug 20 2014 11:00:00 GMT+0800 (SGT)',
+        end: 'Wed Aug 20 2014 11:30:00 GMT+0800 (SGT)'
+      });
+
+      Calendar.insert({
+        title: '#9 Millenium Ave',
+        allDay: false,
+        start: 'Wed Aug 20 2014 11:30:00 GMT+0800 (SGT)',
+        end: 'Wed Aug 20 2014 12:00:00 GMT+0800 (SGT)'
+      });
+
+      Calendar.insert({
+        title: 'St. Patrick Dr',
+        allDay: false,
+        start: 'Wed Aug 20 2014 16:00:00 GMT+0800 (SGT)',
+        end: 'Wed Aug 20 2014 16:30:00 GMT+0800 (SGT)'
+      });
     }
   });
 }

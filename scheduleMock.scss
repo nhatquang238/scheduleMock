@@ -65,6 +65,10 @@ session.shortlists {
         font-size: 1.5em;
     }
 
+    h5 {
+        margin-bottom: 0;
+    }
+
     ul.sub-info {
         li {
             text-align: center;
@@ -84,4 +88,12 @@ session.shortlists {
 
 .fc-agenda-slots td div {
     height: 50px;
+}
+
+.hide-custom {
+    display: none;
+}
+
+.fc-widget-content {
+    cursor: pointer;
 }
