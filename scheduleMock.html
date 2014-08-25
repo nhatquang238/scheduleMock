@@ -25,6 +25,7 @@
 </template>
 
 <template name="shortlists">
+    <h1 style="color: white; margin-left: 15px; margin-top: 15px; margin-bottom: 0; font-size: 16px; line-height: 1.2em; text-transform: uppercase; letter-spacing: 1px;">My shortlists</h1>
     {{#each shortlists}}
         {{> shortlist}}
     {{/each}}
@@ -32,6 +33,7 @@
 
 <template name="shortlist">
     <div class="shortlist" id="{{_id}}">
+        <div class="square-triangle"><span class="glyphicon glyphicon-star"></span></div>
         <div class="img" style="{background-image: url('../{{img}}')}"></div>
         <div class="info">
             <h3>{{address}}</h3>

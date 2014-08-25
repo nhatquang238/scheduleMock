@@ -7,7 +7,7 @@ html, body {
 }
 
 session.schedule {
-    height: 80%;
+    height: 50%;
     display: block;
 
     .calendar, .map {
@@ -17,35 +17,29 @@ session.schedule {
     }
 
     & .calendar {
-        width: 40%;
+        width: 100%;
         background: #fafafa;
     }
 
     & .map {
-        width: 60%;
+        width: 0%;
         background: url('../map.png');
         background-size: 200%;
     }
 }
 
 session.shortlists {
-    height: 20%;
+    height: 50%;
     display: block;
     background: #30343d;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    width: auto;
-    white-space: nowrap;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .shortlist {
     background: #fafafa;
     display: inline-block;
-    margin: 2em 2em 0 0;
-
-    &:first-of-type {
-        margin-left: 2em;
-    }
+    margin: 2em 0.5em 0 1em;
 
     & > div {
         float: left;
@@ -53,6 +47,7 @@ session.shortlists {
 
     .info {
         padding: 0 1em;
+        min-width: 210px;
     }
 
     .img {
@@ -96,4 +91,19 @@ session.shortlists {
 
 .fc-widget-content {
     cursor: pointer;
+}
+
+.square-triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 40px solid #ffb814;
+    border-bottom: 40px solid transparent;
+
+    & span {
+        color: white;
+        position: absolute;
+        top: 5px;
+        left: -34px;
+    }
 }
