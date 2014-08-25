@@ -25,7 +25,7 @@
 </template>
 
 <template name="shortlists">
-    <h1 style="color: white; margin-left: 15px; margin-top: 15px; margin-bottom: 0; font-size: 16px; line-height: 1.2em; text-transform: uppercase; letter-spacing: 1px;">My shortlists</h1>
+    <h1 style="color: white; margin-left: 41px; margin-top: 15px; margin-bottom: 0; font-size: 16px; line-height: 1.2em; text-transform: uppercase; letter-spacing: 1px;">My shortlists</h1>
     {{#each shortlists}}
         {{> shortlist}}
     {{/each}}
@@ -40,7 +40,8 @@
             <ul class="sub-info list-inline">
                 <li><h5>{{price}}</h5>per month</li>
                 <li><h5>{{beds}}</h5>beds</li>
-                <li><h5>{{baths}}</h5>baths</li>
+                <li><h5>{{size}}</h5>sqr feet</li>
+                <li><h5>{{contact}}</h5>{{agent}}</li>
             </ul>
         </div>
     </div>

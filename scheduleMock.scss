@@ -7,7 +7,7 @@ html, body {
 }
 
 session.schedule {
-    height: 50%;
+    width: 60%;
     display: block;
 
     .calendar, .map {
@@ -29,7 +29,8 @@ session.schedule {
 }
 
 session.shortlists {
-    height: 50%;
+    height: 100%;
+    width: 40%;
     display: block;
     background: #30343d;
     overflow-x: hidden;
@@ -39,7 +40,7 @@ session.shortlists {
 .shortlist {
     background: #fafafa;
     display: inline-block;
-    margin: 2em 0.5em 0 1em;
+    margin: 2em 1em 0 3em;
 
     & > div {
         float: left;
@@ -47,7 +48,7 @@ session.shortlists {
 
     .info {
         padding: 0 1em;
-        min-width: 210px;
+        min-width: 310px;
     }
 
     .img {

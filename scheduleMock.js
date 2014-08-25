@@ -29,6 +29,16 @@ Schemas.Shortlists = new SimpleSchema({
     type: String,
     label: 'Image',
     optional: true
+  },
+  agent: {
+    type: String,
+    label: 'Agent',
+    optional: true
+  },
+  contact: {
+    type: String,
+    label: 'Contact',
+    optional: true
   }
 });
 
@@ -86,7 +96,9 @@ if (Meteor.isServer) {
           beds: 3,
           baths: 2,
           size: 1500,
-          img: "shortlist-1.jpg"
+          img: "shortlist-1.jpg",
+          agent: "Eugene Koh",
+          contact: "93488123"
         });
 
         Shortlists.insert({
@@ -95,7 +107,9 @@ if (Meteor.isServer) {
           beds: 1,
           baths: 1,
           size: 900,
-          img: "shortlist-2.jpg"
+          img: "shortlist-2.jpg",
+          agent: "Alicia Ng",
+          contact: "63490241"
         });
 
         Shortlists.insert({
@@ -104,7 +118,9 @@ if (Meteor.isServer) {
           beds: 2,
           baths: 1,
           size: 1200,
-          img: "shortlist-3.jpg"
+          img: "shortlist-3.jpg",
+          agent: "Michel Kim",
+          contact: "83420123"
         });
       };
     }
