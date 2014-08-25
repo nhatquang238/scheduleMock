@@ -44,50 +44,35 @@ Timeslots = new Meteor.Collection('timeslots');
 Shortlists.attachSchema(Schemas.Shortlists);
 
 if (Meteor.isClient) {
+  Meteor.subscribe('shortlists');
+
   Template.shortlists.helpers({
     shortlists: function () {
       return Shortlists.find();
     }
   });
 
-  Template.shortlists.rendered = function () {
-    console.log($('.shortlist'));
-  }
+  Template.shortlist.rendered = function () {
+    var draggableArgs = {
+      appendTo: 'body',
+      zIndex: 10000,
+      // helper: 'clone',
+      // opacity: 0.5,
+      revert: 'invalid',
+      scroll: false,
+      snap: '.fc-widget-content',
+      // snap: '.map',
+      cursor: 'crosshair',
+      cursorAt: {top: -10, left: 30}
+      // snap: '#calendar'
+    }
+    $('.shortlist').draggable(draggableArgs);
+  };
 
-  Template.scheduleCalendar.rendered = function() {
-    // var calHeight = $('#calendar').height() - 50;
-    // $('#calendar').fullCalendar({
-    //   header: {
-    //     left: 'prev',
-    //     center: 'title',
-    //     right: 'next'
-    //   },
-    //   contentHeight: calHeight,
-    //   defaultView: 'agendaDay',
-    //   allDaySlot: false,
-    //   minTime: '08:00:00',
-    //   maxTime: '23:00:00',
-    //   slotEventOverlap: false
-    // });
-  }
-
-  // Template.calendar.rendered = function () {
-    // var calHeight = $('.calendar').height() - 50;
-
-    // $('#calendar').fullCalendar({
-    //   header: {
-    //     left: 'prev',
-    //     center: 'title',
-    //     right: 'next'
-    //   },
-    //   contentHeight: calHeight,
-    //   defaultView: 'agendaDay',
-    //   allDaySlot: false,
-    //   minTime: '08:00:00',
-    //   maxTime: '23:00:00',
-    //   slotEventOverlap: false
-    // });
-  // }
+  Template.schedule.rendered = function () {
+    // $('.map').droppable('.shortlist');
+    // $('.shortlists').droppbale('.shortlist');
+  };
 }
 
 if (Meteor.isServer) {
@@ -128,23 +113,34 @@ if (Meteor.isServer) {
       Calendar.insert({
         title: '#63 Beach Road',
         allDay: false,
-        start: 'Wed Aug 20 2014 11:00:00 GMT+0800 (SGT)',
-        end: 'Wed Aug 20 2014 11:30:00 GMT+0800 (SGT)'
+        start: 'Thu Aug 21 2014 11:00:00 GMT+0800 (SGT)',
+        end: 'Thu Aug 21 2014 11:30:00 GMT+0800 (SGT)'
       });
 
       Calendar.insert({
         title: '#9 Millenium Ave',
         allDay: false,
-        start: 'Wed Aug 20 2014 11:30:00 GMT+0800 (SGT)',
-        end: 'Wed Aug 20 2014 12:00:00 GMT+0800 (SGT)'
+        start: 'Thu Aug 21 2014 11:30:00 GMT+0800 (SGT)',
+        end: 'Thu Aug 21 2014 12:00:00 GMT+0800 (SGT)'
       });
 
       Calendar.insert({
         title: 'St. Patrick Dr',
         allDay: false,
-        start: 'Wed Aug 20 2014 16:00:00 GMT+0800 (SGT)',
-        end: 'Wed Aug 20 2014 16:30:00 GMT+0800 (SGT)'
+        start: 'Thu Aug 21 2014 16:00:00 GMT+0800 (SGT)',
+        end: 'Thu Aug 21 2014 16:30:00 GMT+0800 (SGT)'
+      });
+
+      Calendar.insert({
+        title: 'Anyhow one',
+        allDay: false,
+        start: 'Aug 21 2014 9:0:00 GMT+0800 (SGT)',
+        end: 'Aug 21 2014 9:30:00 GMT+0800 (SGT)'
       });
     }
   });
+
+  Meteor.publish('shortlists', function () {
+    return Shortlists.find();
+  })
 }

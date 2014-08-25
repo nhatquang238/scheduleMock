@@ -8,7 +8,8 @@
       "hammer": {},
       "supercalendar": {},
       "fullcalendar-2": {},
-      "jqueryui": {}
+      "jqueryui": {},
+      "zones": {}
     },
     "packages": {
       "sass": {
@@ -46,6 +47,11 @@
         "tag": "v1.11.0",
         "commit": "06194edc0bdbb28c34b3a656bf9cb6a32718b44e"
       },
+      "zones": {
+        "git": "https://github.com/meteorhacks/zones.git",
+        "tag": "v0.6.1",
+        "commit": "f6f430bf5b5873b40f7b5e7748f8781fa4aed320"
+      },
       "simple-schema": {
         "git": "https://github.com/aldeed/meteor-simple-schema.git",
         "tag": "v0.7.0",
@@ -65,6 +71,11 @@
         "git": "https://github.com/mizzao/meteor-build-fetcher.git",
         "tag": "v0.2.0",
         "commit": "5202ca83277860d798c6ff2ef1d8fe1bce007d0f"
+      },
+      "inject-initial": {
+        "git": "https://github.com/gadicc/meteor-inject-initial.git",
+        "tag": "v0.0.10",
+        "commit": "19d24aea9cdc16963291dfd85a12d6eadf7b98aa"
       },
       "underscore-string-latest": {
         "git": "https://github.com/TimHeckel/meteor-underscore-string.git",
