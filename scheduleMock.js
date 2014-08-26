@@ -54,22 +54,25 @@ Shortlists.attachSchema(Schemas.Shortlists);
 
 Router.configure({
   // layoutTemplate: 'schedule'
+  loadingTemplate: 'loading',
+  waitOn: function () {
+    return [
+      Meteor.subscribe('shortlists'),
+      Meteor.subscribe('calEvents')
+    ]
+  },
+  // onBeforeAction: function (pause) {
+    // this.render('loading');
+    // pause();
+  // }
 });
 
 Router.map(function () {
   this.route('schedule', {
     path: '/',
     template: 'schedule',
-    waitOn: function () {
-      return [
-        Meteor.subscribe('shortlists'),
-        Meteor.subscribe('calEvents')
-      ];
-    },
     data: function () {
-      return {
-        calEvents: CalEvents.find().fetch()
-      }
+      return {calEvents: CalEvents.find()}
     }
   });
   this.route('test', {
@@ -77,6 +80,8 @@ Router.map(function () {
     template: 'test'
   });
 });
+
+Router.onBeforeAction('loading');
 
 if (Meteor.isClient) {
   // shortlistsHandle = Meteor.subscribe('shortlists');
@@ -112,29 +117,30 @@ if (Meteor.isClient) {
   };
 
   Template.scheduleCalendar.rendered = function() {
-    calEvents = this.data.calEvents;
-    console.log(calEvents);
-    $('.calendar').fullCalendar({
+    var calEvents = this.data.calEvents;
+    console.log('calEvents length: ' + calEvents.count());
+
+    var options = {
       header: {
         left: 'prev',
-        center: 'title, month, agendaWeek',
+        center: 'title, month, agendaWeek, agendaDay',
         right: 'next'
       },
       eventStartEditable: true,
       // contentHeight: 544,
       // contentHeight: 300,
-      defaultView: 'agendaWeek',
+      defaultView: 'agendaDay',
       allDaySlot: false,
       minTime: '08:00:00',
       maxTime: '23:00:00',
       slotEventOverlap: false,
       weekMode: 'liquid',
+      // aspectRatio: 2,
+      // weekends: false,
       events: function(start, end, timezone, callback) {
 
         var events = [];
 
-        // calEvents = CalEvents.find();
-        // console.log(calEvents);
         calEvents.forEach(function(evt) {
           events.push(evt);
         });
@@ -150,9 +156,27 @@ if (Meteor.isClient) {
       },
       eventClick: function (event, jsEvent, view) {
         console.log(event);
+      },
+      eventRender: function (event, element, view) {
+        if (view.name === 'agendaDay') {
+          element.html('<div class="shortlist calEvent"><div class="info"><h3>' + event.title + '</h3><ul class="sub-info list-inline"><li><h5>' + event.price + '</h5>per month</li><li><h5>' + event.beds + '</h5>beds</li><li><h5>' + event.size + '</h5>sqr feet</li><li><h5>' + event.contact + '</h5>' + event.agent + '</li></ul></div></div>');
+          // <div class="img" style="{background-image: url("../' + event.img + '")}"></div>
+        }
       }
-    });
+    }
 
+    this.$('.calendar').fullCalendar(options);
+
+    this.autorun(_.bind(function () {
+      var calEvents = CalEvents.find();
+
+      // calEvents.map(function (calEvent) {});
+
+      Deps.afterFlush(_.bind(function () {
+        this.$('.calendar').data('fullCalendar').reinit(options)
+      }), this);
+
+    }), this);
     // $('.fc-button-agendaWeek').click();
   };
 
@@ -241,35 +265,48 @@ if (Meteor.isServer) {
         agent: "Michel Kim",
         contact: "83420123"
       });
+
+      Shortlists.insert({
+        address: "Heaven Palace",
+        price: 5300,
+        beds: 4,
+        baths: 3,
+        size: 2000,
+        img: "shortlist-1.jpg",
+        agent: "Don Master",
+        contact: "94293841"
+      });
     }
 
     if (CalEvents.find().count() == 0) {
       CalEvents.insert({
-        title: '#63 Beach Road',
+        shortlistId: 'yK6ZrEgqFdnL8aBm8',
+        title: '#21 Holland Close',
         allDay: false,
         start: moment().set('hour', '9').set('minute', '30')._d,
-        end: moment().set('hour', '10').set('minute', '0')._d
+        end: moment().set('hour', '10').set('minute', '0')._d,
+        price: 3500,
+        beds: 3,
+        baths: 2,
+        size: 1500,
+        img: "shortlist-1.jpg",
+        agent: "Eugene Koh",
+        contact: "93488123"
       });
 
       CalEvents.insert({
-        title: '#9 Millenium Ave',
+        shortlistId: '6sa58GBBJD33oQ3ei',
+        title: 'St. Michael Place',
         allDay: false,
         start: moment().set('hour', '10').set('minute', '30')._d,
-        end: moment().set('hour', '11').set('minute', '0')._d
-      });
-
-      CalEvents.insert({
-        title: 'St. Patrick Dr',
-        allDay: false,
-        start: moment().add('1', 'days').set('hour', '11').set('minute', '0')._d,
-        end: moment().add('1', 'days').set('hour', '11').set('minute', '30')._d
-      });
-
-      CalEvents.insert({
-        title: 'Anyhow one',
-        allDay: false,
-        start: moment().add('2', 'days').set('hour', '12').set('minute', '0')._d,
-        end: moment().add('2', 'days').set('hour', '12').set('minute', '30')._d
+        end: moment().set('hour', '11').set('minute', '0')._d,
+        price: 3200,
+        beds: 2,
+        baths: 1,
+        size: 1200,
+        img: "shortlist-3.jpg",
+        agent: "Michel Kim",
+        contact: "83420123"
       });
     }
   });

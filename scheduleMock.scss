@@ -82,8 +82,33 @@ session.shortlists {
     }
 }
 
+.calEvent {
+    background: none;
+    margin: 0;
+
+    h3 {
+        font-size: 1em;
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+
+    ul.sub-info {
+        li {
+            color: #ddd;
+            font-size: 1em;
+            margin: 0;
+
+            h5 {
+                color: #eee;
+                font-weight: 200;
+                font-size: 1em;
+            }
+        }
+    }
+}
+
 .fc-agenda-slots td div {
-    // height: 50px;
+    height: 75px;
 }
 
 .hide-custom {

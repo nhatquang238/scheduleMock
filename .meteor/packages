@@ -14,4 +14,6 @@ moment
 zones
 jquery-select2
 fullcalendar2.0
+spin
+iron-layout
 iron-router
