@@ -3,7 +3,7 @@
 </head>
 
 <body>
-  {{> schedule}}
+  {{> yield}}
 </body>
 
 <template name="schedule">
@@ -17,11 +17,11 @@
 </template>
 
 <template name="scheduleCalendar">
-    <session class="calendar">
-        {{> calendar}}
-        {{> new_event_modal}}
-        {{> event_details}}
-    </session>
+    <input type="hidden" name="lastMod" value="{{lastMod}}" id="lastMod">
+    <session class="calendar"></session>
+    {{#if showEditEvent}}
+        {{> editEvent}}
+    {{/if}}
 </template>
 
 <template name="shortlists">
@@ -44,5 +44,25 @@
                 <li><h5>{{contact}}</h5>{{agent}}</li>
             </ul>
         </div>
+    </div>
+</template>
+
+<template name="editEvent">
+    <div class="editEvent form">
+        <div class="triangle-with-shadow"></div>
+        <span class="glyphicon glyphicon-remove close-edit-event"></span>
+        <div class="form-group">
+            <p>Choose a unit to schedule</p>
+            {{#Select2}}
+                {{#each shortlists}}
+                    <option value="{{_id}}">{{address}}</option>
+                {{/each}}
+            {{/Select2}}
+        </div>
+        <div class="form-group">
+            <p>Remark</p>
+            <textarea placeholder="Anything you want to ask the agent?" name="" cols="30" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success submit-schedule">Schedule</button>
     </div>
 </template>

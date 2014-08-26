@@ -4,9 +4,10 @@
     "collection2": {},
     "bootstrap-3": {},
     "hammer": {},
-    "supercalendar": {},
-    "fullcalendar-2": {},
     "jqueryui": {},
-    "zones": {}
+    "zones": {},
+    "jquery-select2": {},
+    "fullcalendar2.0": {},
+    "iron-router": {}
   }
 }
