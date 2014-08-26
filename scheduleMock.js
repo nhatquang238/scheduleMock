@@ -159,8 +159,8 @@ if (Meteor.isClient) {
       },
       eventRender: function (event, element, view) {
         if (view.name === 'agendaDay') {
-          element.html('<div class="shortlist calEvent"><div class="info"><h3>' + event.title + '</h3><ul class="sub-info list-inline"><li><h5>' + event.price + '</h5>per month</li><li><h5>' + event.beds + '</h5>beds</li><li><h5>' + event.size + '</h5>sqr feet</li><li><h5>' + event.contact + '</h5>' + event.agent + '</li></ul></div></div>');
-          // <div class="img" style="{background-image: url("../' + event.img + '")}"></div>
+          element.html('<div class="shortlist calEvent"><img class="img" src="../' + event.img + '" alt=""><div class="info"><h3>' + event.title + '</h3><ul class="sub-info list-inline"><li><h5>' + event.price + '</h5>per month</li><li><h5>' + event.beds + '</h5>beds</li><li><h5>' + event.size + '</h5>sqr feet</li><li><h5>' + event.contact + '</h5>' + event.agent + '</li></ul></div></div>');
+          // <div class="img" style="{background-image: url("..\u2215' + event.img + '")}"></div>
         }
       }
     }

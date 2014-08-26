@@ -96,7 +96,6 @@ session.shortlists {
         li {
             color: #ddd;
             font-size: 1em;
-            margin: 0;
 
             h5 {
                 color: #eee;
@@ -104,6 +103,12 @@ session.shortlists {
                 font-size: 1em;
             }
         }
+    }
+
+    .img {
+        float: left;
+        width: 73px;
+        height: 73px;
     }
 }
 
