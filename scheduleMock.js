@@ -127,7 +127,7 @@ if (Meteor.isClient) {
         right: 'next'
       },
       eventStartEditable: true,
-      // contentHeight: 544,
+      contentHeight: 491,
       // contentHeight: 300,
       defaultView: 'agendaDay',
       allDaySlot: false,
