@@ -71,9 +71,6 @@
 
 <template name="scheduleCalendar">
     <session class="calendar"></session>
-    {{#if isEditEvent}}
-        {{> editEvent}}
-    {{/if}}
 </template>
 
 <template name="shortlists">
@@ -100,7 +97,7 @@
 </template>
 
 <template name="editEvent">
-    <div class="editEvent form">
+    <div class="editEvent form hide">
         <div class="triangle-with-shadow"></div>
         <span class="glyphicon glyphicon-remove close-edit-event"></span>
         <div class="form-group">

@@ -72,8 +72,44 @@ Router.map(function () {
 Router.onBeforeAction('loading');
 
 if (Meteor.isClient) {
+  var tmpEditEvent = null;
+  Meteor.startup(function () {
+    tmpEditEvent = UI.render(Template.editEvent)
+    UI.insert(tmpEditEvent, document.body);
+  });
   // shortlistsHandle = Meteor.subscribe('shortlists');
   // calEventsHandle = Meteor.subscribe('calEvents');
+
+  showEditEventDeps = new Deps.Dependency
+  var showEditEvent = false;
+  getShowEditEvent = function() {
+    showEditEventDeps.depend();
+    return showEditEvent;
+  }
+  setShowEditEvent = function(value) {
+    showEditEvent = value;
+    showEditEventDeps.changed();
+  }
+  Deps.autorun(function () {
+    var t = getShowEditEvent();
+    if(t){
+      // show
+      console.log('show', tmpEditEvent);
+      if(tmpEditEvent)
+        $(tmpEditEvent.view._templateInstance.find('.editEvent')).removeClass('hide');
+    }
+    else {
+      // hide
+      console.log('hide');
+      if(tmpEditEvent)
+        $(tmpEditEvent.view._templateInstance.find('.editEvent')).addClass('hide');
+    }
+  });
+
+
+
+
+
 
   // Session.setDefault('showEditEvent', false);
   Session.setDefault('editing_calendar', null);
@@ -138,9 +174,13 @@ if (Meteor.isClient) {
       },
       dayClick: function (date, jsEvent, view) {
         var currentDate = moment(date._d).set('hour', date._i[3])._d;
-        console.log(Session.get('showEditEvent'));
         Session.set('currentTimeslotPicked', currentDate);
-        Session.set('showEditEvent', true);
+        
+
+        //Session.set('showEditEvent', true);
+        setShowEditEvent(true);
+
+
         Deps.afterFlush(function () {
           $('.editEvent').css('left', jsEvent.clientX + 20).css('top', jsEvent.clientY - 20);
         });
@@ -178,8 +218,8 @@ if (Meteor.isClient) {
 
   Template.scheduleCalendar.helpers({
     isEditEvent: function () {
-      // console.log('showEditEvent helper');
-      return Session.get('showEditEvent');
+      console.log('show');
+      // return Session.get('showEditEvent');
     }
   });
 
@@ -216,20 +256,30 @@ if (Meteor.isClient) {
   Template.editEvent.events({
     'click .submit-schedule': function (event) {
       event.preventDefault();
-      Session.set('showEditEvent', false);
-      Deps.afterFlush(function () {
-        var newEvent = {
-          start: Session.get('currentTimeslotPicked'),
-          end: moment(Session.get('currentTimeslotPicked')).add(30, 'minutes')._d
-        }
-        var scheduleUnit = _.omit(Shortlists.findOne({_id: Session.get('scheduleUnitId')}), '_id');
+      
 
-        _.extend(newEvent, scheduleUnit);
-        CalEvents.insert(newEvent);
+      //console.log('insert call');
+      //Session.set('showEditEvent', false);
+      setShowEditEvent(false);
+      
+      Deps.nonreactive(function () {
+        Deps.afterFlush(function () {
+          var newEvent = {
+            start: Session.get('currentTimeslotPicked'),
+            end: moment(Session.get('currentTimeslotPicked')).add(30, 'minutes')._d
+          }
+          var scheduleUnit = _.omit(Shortlists.findOne({_id: Session.get('scheduleUnitId')}), '_id');
+
+          _.extend(newEvent, scheduleUnit);
+          console.log('insert');
+          console.trace();
+          CalEvents.insert(newEvent);
+        });
       });
     },
     'click .close-edit-event': function (e) {
-      Session.set('showEditEvent', false);
+      // Session.set('showEditEvent', false);
+      setShowEditEvent(false);
     },
     'change #schedule-select': function (event) {
       Session.set('scheduleUnitId', event.target.value);
