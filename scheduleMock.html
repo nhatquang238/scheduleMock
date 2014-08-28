@@ -14,12 +14,64 @@
     <session class="shortlists">
         {{> shortlists}}
     </session>
+    <!-- {{#if isViewEvent}} -->
+        {{> eventDetail}}
+    <!-- {{/if}} -->
+</template>
+
+<template name="eventDetail">
+    <div class="event-detail">
+        <div class="head">
+            <div class="unit-thumbnail" style="background-image: url('../{{data.img}}')"></div>
+            <div class="address">
+                <h3>{{data.address}}</h3>
+            </div>
+            <div class="quick-status">Planning</div>
+        </div>
+        <div class="unit-info">
+            <ul>
+                <li>
+                    <h5>{{data.price}}</h5>
+                    per month
+                </li>
+                <li>
+                    <h5>{{data.size}}</h5>
+                    square feet
+                </li>
+                <li>
+                    <h5>{{data.beds}}</h5>
+                    beds
+                </li>
+            </ul>
+        </div>
+        <div class="time-status">
+            <ul>
+                <li><span class="glyphicon glyphicon-time"></span> {{data.start}}</li>
+                <li><span class="status-icon"></span> Planning to view</li>
+            </ul>
+        </div>
+        <div class="agent">
+            <p><span class="glyphicon glyphicon-user"></span> Agent {{data.agent}}</p>
+            <p>{{data.contact}}</p>
+        </div>
+        <div class="unit-details">
+            <a>Unit details</a>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </div>
+        <div class="conversation">
+            <a>Conversation</a>
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </div>
+        <div class="control">
+            <button class="cancel btn btn-default">Cancel</button>
+            <button class="schedule btn btn-success">Schedule</button>
+        </div>
+    </div>
 </template>
 
 <template name="scheduleCalendar">
-    <input type="hidden" name="lastMod" value="{{lastMod}}" id="lastMod">
     <session class="calendar"></session>
-    {{#if showEditEvent}}
+    {{#if isEditEvent}}
         {{> editEvent}}
     {{/if}}
 </template>
@@ -53,11 +105,14 @@
         <span class="glyphicon glyphicon-remove close-edit-event"></span>
         <div class="form-group">
             <p>Choose a unit to schedule</p>
-            {{#Select2}}
+            {{#Select2 id="schedule-select" placeholder="Pick one unit..." }}
                 {{#each shortlists}}
                     <option value="{{_id}}">{{address}}</option>
                 {{/each}}
             {{/Select2}}
+        </div>
+        <div class="form-group">
+            <p>{{scheduleStart}} - {{scheduleEnd}}</p>
         </div>
         <div class="form-group">
             <p>Remark</p>

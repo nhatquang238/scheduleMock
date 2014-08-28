@@ -40,31 +40,19 @@ Schemas.Shortlists = new SimpleSchema({
   }
 });
 
-Schemas.CalEvents = new SimpleSchema({
-  startTime: {
-    type: Date,
-    label: 'Start time'
-  }
-});
-
 Shortlists = new Meteor.Collection('shortlists');
 CalEvents = new Meteor.Collection('calEvents');
 
 Shortlists.attachSchema(Schemas.Shortlists);
 
 Router.configure({
-  // layoutTemplate: 'schedule'
   loadingTemplate: 'loading',
   waitOn: function () {
     return [
       Meteor.subscribe('shortlists'),
       Meteor.subscribe('calEvents')
     ]
-  },
-  // onBeforeAction: function (pause) {
-    // this.render('loading');
-    // pause();
-  // }
+  }
 });
 
 Router.map(function () {
@@ -87,8 +75,7 @@ if (Meteor.isClient) {
   // shortlistsHandle = Meteor.subscribe('shortlists');
   // calEventsHandle = Meteor.subscribe('calEvents');
 
-  Session.setDefault('lastMod', null);
-  Session.set('showEditEvent', false);
+  // Session.setDefault('showEditEvent', false);
   Session.setDefault('editing_calendar', null);
 
   function shortlists () {
@@ -104,7 +91,7 @@ if (Meteor.isClient) {
       appendTo: 'body',
       zIndex: 10000,
       // helper: 'clone',
-      // opacity: 0.5,
+      // opacity: 0.5,xe
       revert: 'invalid',
       scroll: false,
       snap: '.fc-widget-content',
@@ -118,25 +105,27 @@ if (Meteor.isClient) {
 
   Template.scheduleCalendar.rendered = function() {
     var calEvents = this.data.calEvents;
-    console.log('calEvents length: ' + calEvents.count());
-
     var options = {
       header: {
-        left: 'prev',
-        center: 'title, month, agendaWeek, agendaDay',
-        right: 'next'
+        left: 'month, agendaDay',
+        center: 'title',
+        right: 'prev, next'
       },
       eventStartEditable: true,
-      contentHeight: 491,
-      // contentHeight: 300,
+      contentHeight: $('.map').height() - 50,
       defaultView: 'agendaDay',
       allDaySlot: false,
-      minTime: '08:00:00',
-      maxTime: '23:00:00',
+      minTime: '08:00:00 GMT+0800 (SGT)',
+      maxTime: '23:00:00 GMT+0800 (SGT)',
       slotEventOverlap: false,
       weekMode: 'liquid',
-      // aspectRatio: 2,
-      // weekends: false,
+      timezone: 'Asia/Saigon',
+      columnFormat: {
+        day: ''
+      },
+      titleFormat: {
+        day: 'D MMM'
+      },
       events: function(start, end, timezone, callback) {
 
         var events = [];
@@ -148,18 +137,21 @@ if (Meteor.isClient) {
         callback(events);
       },
       dayClick: function (date, jsEvent, view) {
-        Session.set('lastMod', moment());
-        console.log(date);
-        Session.set('currentTimeslotPicked', date);
+        var currentDate = moment(date._d).set('hour', date._i[3])._d;
+        console.log(Session.get('showEditEvent'));
+        Session.set('currentTimeslotPicked', currentDate);
         Session.set('showEditEvent', true);
-        $('.editEvent').css('left', jsEvent.clientX + 20).css('top', jsEvent.clientY - 20);
+        Deps.afterFlush(function () {
+          $('.editEvent').css('left', jsEvent.clientX + 20).css('top', jsEvent.clientY - 20);
+        });
       },
       eventClick: function (event, jsEvent, view) {
         console.log(event);
       },
+      // eventColor: 'white',
       eventRender: function (event, element, view) {
         if (view.name === 'agendaDay') {
-          element.html('<div class="shortlist calEvent"><img class="img" src="../' + event.img + '" alt=""><div class="info"><h3>' + event.title + '</h3><ul class="sub-info list-inline"><li><h5>' + event.price + '</h5>per month</li><li><h5>' + event.beds + '</h5>beds</li><li><h5>' + event.size + '</h5>sqr feet</li><li><h5>' + event.contact + '</h5>' + event.agent + '</li></ul></div></div>');
+          element.html('<div class="shortlist calEvent"><img class="img" src="../' + event.img + '" alt=""><div class="info"><h3>' + event.address + '</h3><ul class="sub-info list-inline"><li><h5>' + event.price + '</h5>per month</li><li><h5>' + event.beds + '</h5>beds</li><li><h5>' + event.size + '</h5>sqr feet</li><li><h5>' + event.contact + '</h5>' + event.agent + '</li></ul></div></div>');
           // <div class="img" style="{background-image: url("..\u2215' + event.img + '")}"></div>
         }
       }
@@ -167,28 +159,27 @@ if (Meteor.isClient) {
 
     this.$('.calendar').fullCalendar(options);
 
+    // Create a computation to rerun everytime events data changed
     this.autorun(_.bind(function () {
       var calEvents = CalEvents.find();
 
-      // calEvents.map(function (calEvent) {});
+      calEvents.map(function (calEvent) {
+        // body...
+      })
 
       Deps.afterFlush(_.bind(function () {
-        this.$('.calendar').data('fullCalendar').reinit(options)
+        // reinitiate calendar
+        // console.log(this.$('.calendar').data('fullCalendar'));
+        this.$('.calendar').data('fullCalendar').refetchEvents();
+        // this.$('.calendar').fullCalendar(options);
       }), this);
-
     }), this);
-    // $('.fc-button-agendaWeek').click();
   };
 
   Template.scheduleCalendar.helpers({
-    lastMod: function () {
-      return Session.get('lastMod');
-    },
-    showEditEvent: function () {
+    isEditEvent: function () {
+      // console.log('showEditEvent helper');
       return Session.get('showEditEvent');
-    },
-    subReady: function () {
-      // return calEventsHandle.ready();
     }
   });
 
@@ -213,6 +204,12 @@ if (Meteor.isClient) {
           }
         }
       }
+    },
+    scheduleStart: function () {
+      return moment(Session.get('currentTimeslotPicked')).format('h:mm a');
+    },
+    scheduleEnd: function () {
+      return moment(Session.get('currentTimeslotPicked')).add(30, 'minutes').format('h:mm a');
     }
   });
 
@@ -220,11 +217,48 @@ if (Meteor.isClient) {
     'click .submit-schedule': function (event) {
       event.preventDefault();
       Session.set('showEditEvent', false);
+      Deps.afterFlush(function () {
+        var newEvent = {
+          start: Session.get('currentTimeslotPicked'),
+          end: moment(Session.get('currentTimeslotPicked')).add(30, 'minutes')._d
+        }
+        var scheduleUnit = _.omit(Shortlists.findOne({_id: Session.get('scheduleUnitId')}), '_id');
 
-      console.log(Session.get('currentTimeslotPicked'));
+        _.extend(newEvent, scheduleUnit);
+        CalEvents.insert(newEvent);
+      });
     },
     'click .close-edit-event': function (e) {
       Session.set('showEditEvent', false);
+    },
+    'change #schedule-select': function (event) {
+      Session.set('scheduleUnitId', event.target.value);
+    }
+  });
+
+  Template.editEvent.destroyed = function () {
+    console.log('editEvent template is destroyed');
+    console.log('_______________________________');
+  };
+
+  Template.editEvent.created = function () {
+    console.log('editEvent template is created');
+  };
+
+  Template.eventDetail.helpers({
+    data: function() {
+      return {
+        address: "#21 Holland Close",
+        price: 3500,
+        beds: 3,
+        baths: 2,
+        size: 1500,
+        img: "shortlist-1.jpg",
+        agent: "Eugene Koh",
+        contact: "93488123",
+        start: "8.30am Wednesday Aug 27th 2014",
+        end: "9am Wednesday Aug 27th 2014"
+      };
     }
   })
 }
@@ -275,38 +309,6 @@ if (Meteor.isServer) {
         img: "shortlist-1.jpg",
         agent: "Don Master",
         contact: "94293841"
-      });
-    }
-
-    if (CalEvents.find().count() == 0) {
-      CalEvents.insert({
-        shortlistId: 'yK6ZrEgqFdnL8aBm8',
-        title: '#21 Holland Close',
-        allDay: false,
-        start: moment().set('hour', '9').set('minute', '30')._d,
-        end: moment().set('hour', '10').set('minute', '0')._d,
-        price: 3500,
-        beds: 3,
-        baths: 2,
-        size: 1500,
-        img: "shortlist-1.jpg",
-        agent: "Eugene Koh",
-        contact: "93488123"
-      });
-
-      CalEvents.insert({
-        shortlistId: '6sa58GBBJD33oQ3ei',
-        title: 'St. Michael Place',
-        allDay: false,
-        start: moment().set('hour', '10').set('minute', '30')._d,
-        end: moment().set('hour', '11').set('minute', '0')._d,
-        price: 3200,
-        beds: 2,
-        baths: 1,
-        size: 1200,
-        img: "shortlist-3.jpg",
-        agent: "Michel Kim",
-        contact: "83420123"
       });
     }
   });

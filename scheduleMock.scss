@@ -61,6 +61,7 @@ session.shortlists {
 
     h3 {
         font-size: 1.5em;
+        // color: #222;
     }
 
     h5 {
@@ -87,6 +88,7 @@ session.shortlists {
 .calEvent {
     background: none;
     margin: 0;
+    border-radius: 0;
 
     h3 {
         font-size: 1em;
@@ -96,13 +98,13 @@ session.shortlists {
 
     ul.sub-info {
         li {
-            color: #ddd;
             font-size: 1em;
+            color: #ddd;
 
             h5 {
-                color: #eee;
                 font-weight: 200;
                 font-size: 1em;
+                color: #eee;
             }
         }
     }
@@ -185,5 +187,87 @@ session.shortlists {
         &:hover {
             opacity: 1;
         }
+    }
+}
+
+.select2-container {
+    display: none !important;
+}
+
+.fc-button {
+    background: none;
+    border-radius: 0 !important;
+    box-shadow: none;
+    border: none;
+}
+
+.fc-content {
+    thead {
+        // display: none;
+    }
+}
+
+.fc-header {
+    background: #008B44;
+    color: #fafafa;
+    height: 50px;
+}
+
+.fc-state-default {
+    text-shadow: none;
+    color: #fafafa;
+}
+
+.fc-header.fc-button {
+    margin: 0;
+}
+
+.fc-state-hover {
+    background: #00BA5C;
+}
+
+.fc-header-left, .fc-header-right {
+    background: #15C576;
+    box-sizing: border-box;
+    &>span {
+        width: 50%;
+    }
+}
+
+.fc-header-space {
+    width: 0;
+    padding: 0 !important;
+}
+
+.fc td, .fc th {
+    vertical-align: middle;
+}
+
+.event-detail {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 100;
+    background: white;
+
+    & > div {
+        padding: 1em;
+    }
+
+    .head {
+        overflow: hidden;
+
+        & > div {
+            float: left;
+        }
+    }
+
+    .unit-thumbnail {
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        background-size: 150%;
+        background-position: 40% 0;
+        display: inline-block;
     }
 }
